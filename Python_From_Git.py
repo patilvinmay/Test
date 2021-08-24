@@ -2,7 +2,7 @@
 import requests
 import os
 
-url = 'https://raw.githubusercontent.com/patilvinmay/SmartMirror/master/Hello.py'
+url = 'https://raw.githubusercontent.com/patilvinmay/Test/main/Hello.py'
 req = requests.get(url)
 pycode = req.text
 
