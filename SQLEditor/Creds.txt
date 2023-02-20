@@ -1,0 +1,6 @@
+username:vinmaypatil
+password:Bp21091996
+account:wi53331.ap-southeast-1
+warehouse:COMPUTE_WH
+database:
+role:
