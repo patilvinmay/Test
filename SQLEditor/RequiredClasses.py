@@ -1,4 +1,4 @@
-import sys, os
+import sys
 from PyQt5.QtWidgets import QComboBox, QListWidget, QMainWindow
 from PyQt5.QtCore import Qt, QCoreApplication
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -14,7 +14,7 @@ class CheckableComboBox(QComboBox):
         self.view().pressed.connect(self.handleItemPressed)
 
     def setItemChecked(self, index, checked=False):
-        item = self.model().item(index, self.modelColumn()) # QStandardItem object
+        item = self.model().item(index, self.modelColumn())  # QStandardItem object
 
         if checked:
             item.setCheckState(Qt.Checked)
@@ -127,7 +127,7 @@ class TableModel(QtCore.QAbstractTableModel):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
             return self._data.columns[col]
         if orientation == Qt.Vertical and role == Qt.DisplayRole:
-            return self._data.index[col]+1
+            return self._data.index[col] + 1
         return None
 
     def sort(self, Ncol, order):
@@ -194,10 +194,9 @@ class Ui_QueryWindow(object):
 
 class Ui_LoginWindow(object):
     def setupUi(self, MainWindow):
-        os.chdir("""C:\\SQLEditor""")
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(416, 324)
-        self.creds=[]
+        self.creds = []
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setStyleSheet("background-color: rgb(39, 39, 47);\n"
                                          "")
@@ -283,6 +282,19 @@ class Ui_LoginWindow(object):
                                       "border-style: none;")
         self.lineEdit_6.setObjectName("lineEdit_6")
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.lineEdit_6)
+        self.label_7 = QtWidgets.QLabel(self.widget)
+        self.label_7.setStyleSheet("color: white;\n"
+                                   "font: 12pt \"Calibri\";")
+        self.label_7.setObjectName("label_7")
+        self.formLayout.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.label_7)
+        self.lineEdit_7 = QtWidgets.QLineEdit(self.widget)
+        self.lineEdit_7.setStyleSheet("color: rgb(255, 255, 255);\n"
+                                      "background-color: rgb(55, 55, 64);\n"
+                                      "font: 63 14pt \"Calibri\";\n"
+                                      "border-style: none;")
+        self.lineEdit_7.setObjectName("lineEdit_7")
+        self.formLayout.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.lineEdit_7)
+
         self.verticalLayout.addWidget(self.widget)
         self.widget_2 = QtWidgets.QWidget(self.centralwidget)
         self.widget_2.setObjectName("widget_2")
@@ -350,13 +362,12 @@ class Ui_LoginWindow(object):
         self.verticalLayout.setStretch(1, 2)
         MainWindow.setCentralWidget(self.centralwidget)
 
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def SetCreds(self):
 
-        line=''
+        line = ''
         try:
             line = 'username:' + self.lineEdit.text() + '\n'
             line = line + 'password:' + self.lineEdit_2.text() + '\n'
@@ -364,6 +375,7 @@ class Ui_LoginWindow(object):
             line = line + 'warehouse:' + self.lineEdit_4.text() + '\n'
             line = line + 'database:' + self.lineEdit_5.text() + '\n'
             line = line + 'role:' + self.lineEdit_6.text() + '\n'
+            line = line + 'dsn:' + self.lineEdit_7.text() + '\n'
 
             file1 = open("Creds.txt", "w")
             file1.write(line)
@@ -375,6 +387,7 @@ class Ui_LoginWindow(object):
             self.creds.append(self.lineEdit_4.text())
             self.creds.append(self.lineEdit_5.text())
             self.creds.append(self.lineEdit_6.text())
+            self.creds.append(self.lineEdit_7.text())
         except:
             print('File not found')
 
@@ -385,7 +398,7 @@ class Ui_LoginWindow(object):
         data = []
         try:
             file1 = open("Creds.txt", "r+")
-            numoflines=file1.readlines()
+            numoflines = file1.readlines()
             for line in range(0, len(numoflines)):
                 data.append(numoflines[line].split(sep=':')[-1].replace('\n', ''))
 
@@ -395,6 +408,7 @@ class Ui_LoginWindow(object):
             self.lineEdit_4.setText(data[3])
             self.lineEdit_5.setText(data[4])
             self.lineEdit_6.setText(data[5])
+            self.lineEdit_7.setText(data[6])
 
             file1.close()
 
@@ -410,6 +424,7 @@ class Ui_LoginWindow(object):
         self.label_4.setText(_translate("MainWindow", "Warehouse"))
         self.label_5.setText(_translate("MainWindow", "Database"))
         self.label_6.setText(_translate("MainWindow", "Role"))
+        self.label_7.setText(_translate("MainWindow", "DSN"))
         self.pushButton_2.setText(_translate("MainWindow", "Cancel"))
         self.pushButton.setText(_translate("MainWindow", "Login"))
         self.GetCreds()
