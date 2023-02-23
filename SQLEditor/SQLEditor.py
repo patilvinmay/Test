@@ -758,13 +758,19 @@ class Ui_MainWindow(QtWidgets.QWidget):
         global DataframeList
 
         data = pd.DataFrame(DataframeList[self.tabWidget.currentIndex() - 1])
-        writer = pd.ExcelWriter("Result Sheet %d.xlsx" % (self.tabWidget.currentIndex()))
-        data.to_excel(writer, index=False)
-        writer.save()
+
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","Excel File Files (*.xlsx);;All Files (*)", options=options)
+        if fileName:
+            writer = pd.ExcelWriter(fileName)
+            data.to_excel(writer, index=False)
+            writer.save()
+            writer.close()
 
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Information)
-        msg.setText("Excel file is Export with name:\nResult Sheet %d.xlsx" % (self.tabWidget.currentIndex()))
+        msg.setText("Excel file is exported at:\n%s" % fileName)
         msg.setWindowTitle("Excel Exported")
         msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
         retval = msg.exec_()
