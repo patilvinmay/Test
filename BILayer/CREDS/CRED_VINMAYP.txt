@@ -1,0 +1,7 @@
+username:vinmaypatil21
+password:Bp21091996
+account:ye02505.central-india.azure
+warehouse:COMPUTE_WH
+database:VINMAY
+schema:PATIL
+dsn:Snowflake
