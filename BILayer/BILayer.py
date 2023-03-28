@@ -13,9 +13,9 @@ import sys, warnings, os
 import time
 from threading import Thread
 
-from PyQt5.QtCore import QObject, pyqtSignal, QThread
+from PyQt5.QtCore import QObject, pyqtSignal, QThread, QRegExp
 from PyQt5.QtWidgets import QDialog, QMainWindow, QApplication, QListWidgetItem
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 
 import SyntaxHighlighter as sh
 import required as rq
@@ -43,6 +43,7 @@ DataFrameList = ["", "", ""]
 ConnectionList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 rn = 3
+ColumnList = []
 
 warnings.filterwarnings('ignore')  # setting ignore as a parameter
 
@@ -1281,18 +1282,6 @@ class Ui_MainWindow(QMainWindow):
         self.tabWidget.setTabText(resultnumber, "Result %d" % (resultnumber-2))
         self.tabWidget.setCurrentIndex(resultnumber)
 
-    def SearchColumns(self, text):
-
-        model = self.listWidget.model()
-        match = model.match(
-            model.index(0, self.listWidget.modelColumn()),
-            QtCore.Qt.DisplayRole,
-            text,
-            hits=1,
-            flags=QtCore.Qt.MatchStartsWith)
-        if match:
-            self.listWidget.setCurrentIndex(match[0])
-
     def AddColumnToSelect(self):
 
         item = self.listWidget.currentItem().text()
@@ -1408,6 +1397,8 @@ class Ui_MainWindow(QMainWindow):
             self.label.setStyleSheet("color: rgb(0, 255, 0);")
             self.label.setText('Ready!')
 
+            self.FillColumnList()
+
             self.DBComboBox.setCurrentText('VINMAY')
             self.SetIconsToColumns()
         except:
@@ -1473,6 +1464,25 @@ class Ui_MainWindow(QMainWindow):
 
         for i in ItemList:
             self.listWidget_3.takeItem(i)
+
+    def SearchColumns(self, text):
+        global ColumnList
+
+        reg_exp = QRegExp(text, QtCore.Qt.CaseInsensitive, QRegExp.Wildcard)
+        self.listWidget.clear()
+
+        for item in ColumnList:
+            if reg_exp.indexIn(item) != -1:
+                self.listWidget.addItem(item)
+
+        # self.SetIconsToColumns()
+
+    def FillColumnList(self):
+        global ColumnList
+
+        ColumnList = []
+        for i in range(0, self.listWidget.count()):
+            ColumnList.append(self.listWidget.item(i).text())
 
 
 if __name__ == "__main__":
