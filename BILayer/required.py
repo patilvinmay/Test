@@ -500,7 +500,179 @@ class Ui_LoginDialog(QDialog):
     def GetInput(self):
         return self.creds
 
-# class LoginDialog(QDialog):
-#     def __init__(self, parent=None):
-#         super().__init__(parent)
-#         self.ui = Ui_LoginDialog()
+
+   class Ui_FilterDialog(QDialog):
+    def __init__(self, parent=None):
+        super(Ui_FilterDialog, self).__init__(parent)
+        self.setObjectName("Dialog")
+        self.resize(396, 480)
+        self.Filters = []
+        self.setStyleSheet("background-color: rgb(39, 39, 47);")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self)
+        self.verticalLayout.setContentsMargins(2, 2, 2, 2)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.widget = QtWidgets.QWidget(self)
+        self.widget.setStyleSheet("color: rgb(255, 255, 255);\n"
+                                  "background-color: rgb(55, 55, 64);")
+        self.widget.setObjectName("widget")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.widget)
+        self.verticalLayout_2.setContentsMargins(4, 4, 4, 4)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.lineEdit = QtWidgets.QLineEdit(self.widget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.lineEdit.setFont(font)
+        self.lineEdit.setStyleSheet("QLineEdit{\n"
+                                    "color:white;\n"
+                                    "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.149254 rgba(59, 59, 59, 255), stop:0.328358 rgba(60, 60, 60, 255), stop:0.517413 rgba(68, 68, 68, 255), stop:0.716418 rgba(80, 80, 80, 255), stop:1 rgba(115, 115, 115, 255));\n"
+                                    "border-style: outset;\n"
+                                    "border-width: 0px;\n"
+                                    "width:60;\n"
+                                    "height:30;\n"
+                                    "}\n"
+                                    "QLineEdit:hover {\n"
+                                    "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.0248756 rgba(115, 115, 115, 255), stop:0.353234 rgba(80, 80, 80, 255), stop:0.547264 rgba(68, 68, 68, 255), stop:0.781095 rgba(60, 60, 60, 255), stop:1 rgba(59, 59, 59, 255));\n"
+                                    "}")
+        self.lineEdit.setObjectName("lineEdit")
+        self.verticalLayout_2.addWidget(self.lineEdit)
+        self.listWidget = QtWidgets.QListWidget(self.widget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.listWidget.setFont(font)
+        self.listWidget.setObjectName("listWidget")
+        item = QtWidgets.QListWidgetItem()
+        item.setCheckState(QtCore.Qt.Checked)
+        self.listWidget.addItem(item)
+        self.verticalLayout_2.addWidget(self.listWidget)
+        self.verticalLayout.addWidget(self.widget)
+        self.widget_2 = QtWidgets.QWidget(self)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.widget_2.sizePolicy().hasHeightForWidth())
+        self.widget_2.setSizePolicy(sizePolicy)
+        self.widget_2.setObjectName("widget_2")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.widget_2)
+        self.horizontalLayout.setContentsMargins(10, 2, 10, 10)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.pushButton_1 = QtWidgets.QPushButton(self.widget_2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_1.sizePolicy().hasHeightForWidth())
+        self.pushButton_1.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(10)
+        self.pushButton_1.setFont(font)
+        self.pushButton_1.setStyleSheet("QPushButton{\n"
+                                        "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.149254 rgba(59, 59, 59, 255), stop:0.328358 rgba(60, 60, 60, 255), stop:0.517413 rgba(68, 68, 68, 255), stop:0.716418 rgba(80, 80, 80, 255), stop:1 rgba(115, 115, 115, 255));\n"
+                                        "border-style: outset;\n"
+                                        "border-width: 0px;\n"
+                                        "width:63;\n"
+                                        "height:40;\n"
+                                        "}\n"
+                                        "QPushButton:hover {\n"
+                                        "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.0248756 rgba(115, 115, 115, 255), stop:0.353234 rgba(80, 80, 80, 255), stop:0.547264 rgba(68, 68, 68, 255), stop:0.781095 rgba(60, 60, 60, 255), stop:1 rgba(59, 59, 59, 255));\n"
+                                        "    border-style: outset;\n"
+                                        "    border-width: 0.5px;\n"
+                                        "    border-color: rgb(255, 75, 75);\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton:pressed {\n"
+                                        "    border-style: outset;\n"
+                                        "    border-width: 0.5px;\n"
+                                        "    border-color: rgb(253, 204, 96);\n"
+                                        "}")
+        self.pushButton_1.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/whiteIcons/featherwhite/x.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_1.setIcon(icon)
+        self.pushButton_1.setIconSize(QtCore.QSize(20, 20))
+        self.pushButton_1.setObjectName("pushButton_1")
+        self.horizontalLayout.addWidget(self.pushButton_1)
+        self.pushButton_2 = QtWidgets.QPushButton(self.widget_2)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(10)
+        self.pushButton_2.setFont(font)
+        self.pushButton_2.setStyleSheet("QPushButton{\n"
+                                        "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.149254 rgba(59, 59, 59, 255), stop:0.328358 rgba(60, 60, 60, 255), stop:0.517413 rgba(68, 68, 68, 255), stop:0.716418 rgba(80, 80, 80, 255), stop:1 rgba(115, 115, 115, 255));\n"
+                                        "border-style: outset;\n"
+                                        "border-width: 0px;\n"
+                                        "width:63;\n"
+                                        "height:40;\n"
+                                        "}\n"
+                                        "QPushButton:hover {\n"
+                                        "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.0248756 rgba(115, 115, 115, 255), stop:0.353234 rgba(80, 80, 80, 255), stop:0.547264 rgba(68, 68, 68, 255), stop:0.781095 rgba(60, 60, 60, 255), stop:1 rgba(59, 59, 59, 255));\n"
+                                        "    border-style: outset;\n"
+                                        "    border-width: 0.5px;\n"
+                                        "    border-color: rgb(255, 255, 0);\n"
+                                        "    border-color: rgb(0, 255, 255);\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton:pressed {\n"
+                                        "    border-style: outset;\n"
+                                        "    border-width: 0.5px;\n"
+                                        "    border-color: rgb(253, 204, 96);\n"
+                                        "}")
+        self.pushButton_2.setText("")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/whiteIcons/featherwhite/rotate-ccw.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_2.setIcon(icon1)
+        self.pushButton_2.setIconSize(QtCore.QSize(20, 20))
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.horizontalLayout.addWidget(self.pushButton_2)
+        self.pushButton_3 = QtWidgets.QPushButton(self.widget_2)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(10)
+        self.pushButton_3.setFont(font)
+        self.pushButton_3.setStyleSheet("QPushButton{\n"
+                                        "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.149254 rgba(59, 59, 59, 255), stop:0.328358 rgba(60, 60, 60, 255), stop:0.517413 rgba(68, 68, 68, 255), stop:0.716418 rgba(80, 80, 80, 255), stop:1 rgba(115, 115, 115, 255));\n"
+                                        "border-style: outset;\n"
+                                        "border-width: 0px;\n"
+                                        "width:63;\n"
+                                        "height:40;\n"
+                                        "}\n"
+                                        "QPushButton:hover {\n"
+                                        "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.0248756 rgba(115, 115, 115, 255), stop:0.353234 rgba(80, 80, 80, 255), stop:0.547264 rgba(68, 68, 68, 255), stop:0.781095 rgba(60, 60, 60, 255), stop:1 rgba(59, 59, 59, 255));\n"
+                                        "    border-style: outset;\n"
+                                        "    border-width: 0.5px;\n"
+                                        "    border-color: rgb(0, 255, 127);\n"
+                                        "}\n"
+                                        "\n"
+                                        "QPushButton:pressed {\n"
+                                        "    border-style: outset;\n"
+                                        "    border-width: 0.5px;\n"
+                                        "    border-color: rgb(253, 204, 96);\n"
+                                        "}")
+        self.pushButton_3.setText("")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(":/whiteIcons/featherwhite/arrow-right.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_3.setIcon(icon2)
+        self.pushButton_3.setIconSize(QtCore.QSize(20, 20))
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.horizontalLayout.addWidget(self.pushButton_3)
+        self.verticalLayout.addWidget(self.widget_2)
+
+        self.retranslateUi()
+        self.pushButton_1.clicked.connect(self.close) # type: ignore
+        self.pushButton_3.clicked.connect(self.accept)
+        QtCore.QMetaObject.connectSlotsByName(self)
+
+    def retranslateUi(self):
+        _translate = QtCore.QCoreApplication.translate
+        self.setWindowTitle(_translate("Dialog", "Filter"))
+        __sortingEnabled = self.listWidget.isSortingEnabled()
+        self.listWidget.setSortingEnabled(False)
+        item = self.listWidget.item(0)
+        item.setText(_translate("Dialog", "All"))
+        self.listWidget.setSortingEnabled(__sortingEnabled)
+
+    def SetFilters(self):
+
+        for i in range(0, self.listWidget.count()):
+            item = self.listWidget.item(i)
+            if item.checkState():
+                self.Filters.append(item.text())
