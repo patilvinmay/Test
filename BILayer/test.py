@@ -1,139 +1,42 @@
-n = 6
-student = [4,9,5,3,2,10]
-
-if __name__ == '__main__':
-    print(0, end=' ')
-    for i in range(1, n):
-        t = 0
-        for j in range(1, i):
-            if student[j] >= student[i]:
-                t += 1
-        print(t, end=' ')
-
-
-# import sys
-#
-# from PyQt5.QtCore import Qt, QMimeData
-# from PyQt5.QtGui import QDrag
-# from PyQt5 import QtWidgets
-# from PyQt5.QtWidgets import QPushButton, QWidget, QApplication, QGridLayout, QScrollArea, QMainWindow, QSlider
-#
-#
-# class Stroj:
-#
-#     def __init__(self, rok, naziv, trajanje):
-#         self.rok = rok
-#         self.naziv = naziv
-#         self.trajanje = trajanje
-#
-#
-# class Button(QPushButton):
-#     drag = 0
-#
-#     def __init__(self, title, parent):
-#         super().__init__(title, parent)
-#
-#     def mouseMoveEvent(self, e):
-#
-#         if e.buttons() != Qt.LeftButton:
-#             return
-#
-#         mimeData = QMimeData()
-#         mimeData.setText(self.text())
-#
-#         self.drag = QDrag(self)
-#         self.drag.setMimeData(mimeData)
-#         self.drag.setPixmap(self.grab())
-#         self.drag.setHotSpot(self.rect().center())
-#
-#         dropAction = self.drag.exec_(Qt.MoveAction)
-#
-#
-# class MainWindow(QMainWindow):
-#     layout = QGridLayout()
-#     btns = []
-#     snd = ""
-#     i = 0
-#     j = 0
-#
-#     def __init__(self):
-#         super().__init__()
-#
-#         self.initUI()
-#
-#     def initUI(self):
-#
-#         self.setAcceptDrops(True)
-#         self.scroll = QScrollArea()
-#         self.widget = QWidget()
-#         self.drag = QDrag(self)
-#
-#         SL = []
-#         for x in range(30):
-#             self.btns.append(x)
-#
-#         for x in range(30):
-#
-#             self.btns[x] = Button(str(x), self)
-#             self.btns[x].setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
-#             self.layout.addWidget(self.btns[x], self.i, self.j)
-#             if(self.j > 5):
-#                 self.j = 0
-#                 self.i += 1
-#             else:
-#                 self.j += 1
-#
-#         self.widget.setLayout(self.layout)
-#         self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-#         self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-#         self.scroll.setWidgetResizable(True)
-#         self.scroll.setWidget(self.widget)
-#
-#         self.setCentralWidget(self.scroll)
-#
-#         self.setWindowTitle('Raspored')
-#         self.setGeometry(350, 75, 950, 750)
-#
-#     def dragEnterEvent(self, e):
-#         e.accept()
-#
-#     def dragMoveEvent(self, e):
-#         source = e.source()
-#         target = QApplication.widgetAt(self.mapToGlobal(e.pos()))
-#         print(source)
-#         print(target)
-#         if (isinstance(e.source(), Button) and isinstance(target, Button) and target != source):
-#             e.accept()
-#         else:
-#             e.ignore()
-#
-#     def dropEvent(self, e):
-#         source = e.source()
-#         target = QApplication.widgetAt(self.mapToGlobal(e.pos()))
-#         if (not isinstance(source, Button) or not isinstance(target, Button)
-#                 or target == source):
-#             return
-#         layout = self.widget.layout()
-#
-#         sourceIndex = layout.indexOf(source)
-#         sourcePos = layout.getItemPosition(sourceIndex)
-#
-#         targetIndex = layout.indexOf(target)
-#         targetPos = layout.getItemPosition(targetIndex)
-#
-#         layout.addWidget(source, *targetPos)
-#         layout.addWidget(target, *sourcePos)
-#
-#         e.accept()
-#
-#
-# def main():
-#
-#     app = QApplication(sys.argv)
-#     main = MainWindow()
-#     main.show()
-#     app.exec_()
-#
-#
-# if __name__ == '__main__':
-#     main()
+self.widget_27 = QtWidgets.QWidget(self.scrollAreaWidgetContents_2)
+        self.widget_27.setObjectName("widget_27")
+        self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.widget_27)
+        self.verticalLayout_22.setContentsMargins(2, 2, 2, 2)
+        self.verticalLayout_22.setObjectName("verticalLayout_22")
+        self.label_10 = QtWidgets.QLabel(self.widget_27)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(10)
+        self.label_10.setFont(font)
+        self.label_10.setObjectName("label_10")
+        self.verticalLayout_22.addWidget(self.label_10)
+        self.pushButton_12 = QtWidgets.QPushButton(self.widget_27)
+        self.pushButton_12.setStyleSheet("QPushButton{\n"
+"color: white;\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.149254 rgba(59, 59, 59, 255), stop:0.328358 rgba(60, 60, 60, 255), stop:0.517413 rgba(68, 68, 68, 255), stop:0.716418 rgba(80, 80, 80, 255), stop:1 rgba(115, 115, 115, 255));\n"
+"border-style: outset;\n"
+"border-width: 0px;\n"
+"width:60;\n"
+"height:30;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.0248756 rgba(115, 115, 115, 255), stop:0.353234 rgba(80, 80, 80, 255), stop:0.547264 rgba(68, 68, 68, 255), stop:0.781095 rgba(60, 60, 60, 255), stop:1 rgba(59, 59, 59, 255));\n"
+"    border-style: outset;\n"
+"    border-width: 0.5px;\n"
+"    border-color: rgb(0, 255, 127);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    border-style: outset;\n"
+"    border-width: 0.5px;\n"
+"    border-color: rgb(253, 204, 96);\n"
+"}")
+        self.pushButton_12.setText("")
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(":/whiteIcons/featherwhite/calendar.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_12.setIcon(icon4)
+        self.pushButton_12.setObjectName("pushButton_12")
+        self.verticalLayout_22.addWidget(self.pushButton_12)
+        self.verticalLayout_16.addWidget(self.widget_27)
+        
+ self.label_10.setText(_translate("MainWindow", "PROC_DT"))
