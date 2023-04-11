@@ -28,6 +28,12 @@ class Ui_Dialog(object):
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.widget_2)
         self.verticalLayout_3.setContentsMargins(2, 2, 2, 2)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.label_2 = QtWidgets.QLabel(self.widget_2)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.label_2.setFont(font)
+        self.label_2.setObjectName("label_2")
+        self.verticalLayout_3.addWidget(self.label_2)
         self.lineEdit = QtWidgets.QLineEdit(self.widget_2)
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -193,9 +199,11 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.label_2.setText(_translate("Dialog", "Delimeter"))
         self.lineEdit.setText(_translate("Dialog", ","))
         self.pushButton_2.setText(_translate("Dialog", "Export CSV"))
         self.pushButton_3.setText(_translate("Dialog", "Export Excel"))
         self.label.setText(_translate("Dialog", "Table Name"))
         self.pushButton_4.setText(_translate("Dialog", "Create Table"))
         self.pushButton.setText(_translate("Dialog", "OK"))
+import resource_rc
