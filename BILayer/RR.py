@@ -67,6 +67,9 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(1, item)
         self.verticalLayout_6.addWidget(self.tableWidget)
+        self.label = QtWidgets.QLabel(self.widget_3)
+        self.label.setObjectName("label")
+        self.verticalLayout_6.addWidget(self.label)
         self.verticalLayout_5.addWidget(self.widget_3)
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
@@ -89,7 +92,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -99,5 +102,6 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "New Column"))
         item = self.tableWidget.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Tableau Link"))
+        self.label.setText(_translate("MainWindow", "Status label"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tab 1"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
