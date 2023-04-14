@@ -26,6 +26,27 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setContentsMargins(2, 2, 2, 2)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.tabWidget = QtWidgets.QTabWidget(self.widget)
+        self.tabWidget.setStyleSheet("QTabWidget::pane { border: 0; }\n"
+"\n"
+"QTabWidget{\n"
+"    border-style: none;\n"
+"    border-width: 0px;\n"
+"    border-color: rgb(170, 0, 255);\n"
+"}\n"
+"\n"
+"QTabBar::tab {\n"
+"color:black;\n"
+"border-style:none;\n"
+"width:80px;\n"
+"height:26px;\n"
+"} \n"
+"\n"
+"QTabBar::tab:selected { \n"
+"      background-color: rgb(170, 170, 255);\n"
+"    border-style: outset;\n"
+"    border-width: 0.5px;\n"
+"    border-color: rgb(0, 0, 0);\n"
+"}")
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
@@ -68,7 +89,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
