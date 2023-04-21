@@ -20,6 +20,42 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setContentsMargins(2, 2, 2, 2)
         self.verticalLayout.setObjectName("verticalLayout")
+        self.widget_4 = QtWidgets.QWidget(self.centralwidget)
+        self.widget_4.setObjectName("widget_4")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.widget_4)
+        self.horizontalLayout.setContentsMargins(2, 2, 2, 2)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.pushButton_2 = QtWidgets.QPushButton(self.widget_4)
+        self.pushButton_2.setStyleSheet("QPushButton{\n"
+"color:white;\n"
+"background-color: rgb(170, 170, 255);\n"
+"border-style: outset;\n"
+"border-width: 0px;\n"
+"width:60;\n"
+"height:40;\n"
+"}\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(170, 170, 255);\n"
+"    border-style: outset;\n"
+"    border-width: 0.5px;\n"
+"    border-color: rgb(0, 0, 0);\n"
+"    color: rgb(0, 0, 127);\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    border-style: outset;\n"
+"    border-width: 0.5px;\n"
+"    border-color: rgb(85, 85, 255);\n"
+"}")
+        self.pushButton_2.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/icons/feather/tool.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_2.setIcon(icon)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.horizontalLayout.addWidget(self.pushButton_2)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.verticalLayout.addWidget(self.widget_4)
         self.widget = QtWidgets.QWidget(self.centralwidget)
         self.widget.setObjectName("widget")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.widget)
@@ -98,6 +134,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.pushButton_2.setToolTip(_translate("MainWindow", "<html><head/><body><p>Save SQL</p></body></html>"))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "New Column"))
         item = self.tableWidget.horizontalHeaderItem(1)
@@ -105,3 +142,4 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Status label"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tab 1"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
+import resource_rc
