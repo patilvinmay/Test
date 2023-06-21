@@ -1,8 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QMessageBox
-from PyQt5.QtCore import QThread, pyqtSignal, Qt
+from PyQt5.QtCore import QThread, pyqtSignal
 import snowflake.connector as snowflake
-import signal
 
 # Snowflake credentials
 SNOWFLAKE_USER = '<your_snowflake_username>'
@@ -12,14 +11,7 @@ SNOWFLAKE_DATABASE = '<your_snowflake_database>'
 SNOWFLAKE_SCHEMA = '<your_snowflake_schema>'
 SNOWFLAKE_WAREHOUSE = '<your_snowflake_warehouse>'
 
-# Global flag to indicate whether the program should stop
-stop_execution = False
-
-def signal_handler(signum, frame):
-    global stop_execution
-    stop_execution = True
-
-class QueryRunner(QThread):
+class QueryWorker(QThread):
     finished = pyqtSignal()
     error = pyqtSignal(str)
     results = pyqtSignal(list)
@@ -36,25 +28,29 @@ class QueryRunner(QThread):
                 user=SNOWFLAKE_USER,
                 password=SNOWFLAKE_PASSWORD,
                 account=SNOWFLAKE_ACCOUNT,
-                warehouse=SNOWFLAKE_WAREHOUSE,
                 database=SNOWFLAKE_DATABASE,
-                schema=SNOWFLAKE_SCHEMA
+                schema=SNOWFLAKE_SCHEMA,
+                warehouse=SNOWFLAKE_WAREHOUSE
             )
 
-            # Execute the query
+            # Execute the query asynchronously
             cursor = conn.cursor()
-            cursor.execute(self.query)
+            cursor.execute(self.query, _async=True)
 
-            # Check if the program should stop
-            if stop_execution:
-                self.error.emit("Program stopped by user")
-                cursor.close()
-                conn.close()
-                return
+            # Monitor the execution progress
+            while cursor.is_still_running():
+                if not self.running:
+                    cursor.cancel()
+                    self.error.emit("Query aborted by user")
+                    break
 
-            # Fetch the results
-            results = cursor.fetchall()
-            self.results.emit(results)
+            # Check if the query execution was successful
+            if cursor.is_successful():
+                # Fetch the results
+                results = cursor.fetchall()
+                self.results.emit(results)
+            else:
+                self.error.emit("Query execution failed")
 
             # Close the cursor and connection
             cursor.close()
@@ -73,7 +69,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle('Snowflake Query Executor')
 
-        self.query_runner = None
+        self.query_worker = None
 
         self.run_button = QPushButton('Run Query', self)
         self.run_button.clicked.connect(self.run_query)
@@ -86,18 +82,18 @@ class MainWindow(QMainWindow):
 
     def run_query(self):
         query = 'SELECT * FROM your_table'
-        self.query_runner = QueryRunner(query)
-        self.query_runner.finished.connect(self.query_finished)
-        self.query_runner.error.connect(self.query_error)
-        self.query_runner.results.connect(self.query_results)
-        self.query_runner.start()
+        self.query_worker = QueryWorker(query)
+        self.query_worker.finished.connect(self.query_finished)
+        self.query_worker.error.connect(self.query_error)
+        self.query_worker.results.connect(self.query_results)
+        self.query_worker.start()
 
         self.run_button.setEnabled(False)
         self.abort_button.setEnabled(True)
 
     def abort_query(self):
-        if self.query_runner:
-            self.query_runner.abort()
+        if self.query_worker:
+            self.query_worker.abort()
 
     def query_finished(self):
         self.run_button.setEnabled(True)
@@ -111,15 +107,7 @@ class MainWindow(QMainWindow):
         print(results)
 
 if __name__ == '__main__':
-    # Register the signal handler for interrupt signal (Ctrl+C)
-    signal.signal(signal.SIGINT, signal_handler)
-
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-
-    # Set the Qt application flag to receive interrupt signal
-    app.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-    app.setQuitOnLastWindowClosed(False)
-
     sys.exit(app.exec_())
