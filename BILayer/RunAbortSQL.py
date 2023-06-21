@@ -28,9 +28,9 @@ class QueryRunner(QThread):
                 user=SNOWFLAKE_USER,
                 password=SNOWFLAKE_PASSWORD,
                 account=SNOWFLAKE_ACCOUNT,
+                warehouse=SNOWFLAKE_WAREHOUSE,
                 database=SNOWFLAKE_DATABASE,
-                schema=SNOWFLAKE_SCHEMA,
-                warehouse=SNOWFLAKE_WAREHOUSE
+                schema=SNOWFLAKE_SCHEMA
             )
 
             # Execute the query
@@ -40,7 +40,7 @@ class QueryRunner(QThread):
             # Fetch the results
             self.results = self.cursor.fetchall()
 
-        except snowflake.errors.ProgrammingError as e:
+        except snowflake.connector.errors.ProgrammingError as e:
             # Handle any errors that occur during execution
             self.error = str(e)
 
