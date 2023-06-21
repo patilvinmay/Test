@@ -1,7 +1,8 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QMessageBox
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtCore import QThread, pyqtSignal, Qt
 import snowflake.connector as snowflake
+import signal
 
 # Snowflake credentials
 SNOWFLAKE_USER = '<your_snowflake_username>'
@@ -10,6 +11,13 @@ SNOWFLAKE_ACCOUNT = '<your_snowflake_account>'
 SNOWFLAKE_DATABASE = '<your_snowflake_database>'
 SNOWFLAKE_SCHEMA = '<your_snowflake_schema>'
 SNOWFLAKE_WAREHOUSE = '<your_snowflake_warehouse>'
+
+# Global flag to indicate whether the program should stop
+stop_execution = False
+
+def signal_handler(signum, frame):
+    global stop_execution
+    stop_execution = True
 
 class QueryRunner(QThread):
     finished = pyqtSignal()
@@ -37,9 +45,9 @@ class QueryRunner(QThread):
             cursor = conn.cursor()
             cursor.execute(self.query)
 
-            # Check if the query has been aborted
-            if not self.running:
-                self.error.emit("Query aborted by user")
+            # Check if the program should stop
+            if stop_execution:
+                self.error.emit("Program stopped by user")
                 cursor.close()
                 conn.close()
                 return
@@ -103,7 +111,15 @@ class MainWindow(QMainWindow):
         print(results)
 
 if __name__ == '__main__':
+    # Register the signal handler for interrupt signal (Ctrl+C)
+    signal.signal(signal.SIGINT, signal_handler)
+
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
+
+    # Set the Qt application flag to receive interrupt signal
+    app.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    app.setQuitOnLastWindowClosed(False)
+
     sys.exit(app.exec_())
