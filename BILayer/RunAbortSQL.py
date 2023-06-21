@@ -92,4 +92,24 @@ class MainWindow(QMainWindow):
         self.query_runner.start()
 
         self.run_button.setEnabled(False)
-        self.abort_button
+        self.abort_button.setEnabled(True)
+
+    def abort_query(self):
+        if self.query_runner:
+            self.query_runner.abort()
+
+    def query_finished(self):
+        if self.query_runner.error:
+            QMessageBox.critical(self, 'Error', self.query_runner.error)
+        else:
+            df = pd.DataFrame(self.query_runner.results)
+            # Do something with the results
+
+        self.run_button.setEnabled(True)
+        self.abort_button.setEnabled(False)
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec_())
