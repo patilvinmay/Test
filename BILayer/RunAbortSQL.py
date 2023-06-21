@@ -1,7 +1,7 @@
-a
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QMessageBox
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtCore import QThread, pyqtSignal, Qt
+
 import snowflake.connector as snowflake
 import pandas as pd
 
@@ -21,6 +21,7 @@ class QueryRunner(QThread):
         self.query = query
         self.results = None
         self.error = None
+        self.running = True
 
     def run(self):
         try:
@@ -29,9 +30,9 @@ class QueryRunner(QThread):
                 user=SNOWFLAKE_USER,
                 password=SNOWFLAKE_PASSWORD,
                 account=SNOWFLAKE_ACCOUNT,
-                warehouse=SNOWFLAKE_WAREHOUSE,
                 database=SNOWFLAKE_DATABASE,
-                schema=SNOWFLAKE_SCHEMA
+                schema=SNOWFLAKE_SCHEMA,
+                warehouse=SNOWFLAKE_WAREHOUSE
             )
 
             # Execute the query
@@ -41,7 +42,7 @@ class QueryRunner(QThread):
             # Fetch the results
             self.results = self.cursor.fetchall()
 
-        except snowflake.connector.errors.ProgrammingError as e:
+        except snowflake.errors.ProgrammingError as e:
             # Handle any errors that occur during execution
             self.error = str(e)
 
@@ -52,12 +53,14 @@ class QueryRunner(QThread):
             if conn:
                 conn.close()
 
+            self.running = False
             self.finished.emit()
 
     def abort(self):
         if self.cursor:
             self.cursor.close()
         self.error = "Query aborted by user"
+        self.running = False
         self.finished.emit()
 
 class MainWindow(QMainWindow):
@@ -76,30 +79,17 @@ class MainWindow(QMainWindow):
         self.abort_button.setGeometry(160, 50, 100, 30)
         self.abort_button.setEnabled(False)
 
+    def closeEvent(self, event):
+        if self.query_runner and self.query_runner.isRunning():
+            self.query_runner.abort()
+            self.query_runner.wait()
+
+        event.accept()
+
     def run_query(self):
         self.query_runner = QueryRunner('SELECT * FROM your_table')
         self.query_runner.finished.connect(self.query_finished)
         self.query_runner.start()
 
         self.run_button.setEnabled(False)
-        self.abort_button.setEnabled(True)
-
-    def abort_query(self):
-        if self.query_runner:
-            self.query_runner.abort()
-
-    def query_finished(self):
-        if self.query_runner.error:
-            QMessageBox.critical(self, 'Error', self.query_runner.error)
-        else:
-            df = pd.DataFrame(self.query_runner.results)
-            # Do something with the results
-
-        self.run_button.setEnabled(True)
-        self.abort_button.setEnabled(False)
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
+        self.abort_button
