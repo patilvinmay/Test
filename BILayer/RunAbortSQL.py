@@ -18,6 +18,8 @@ class QueryRunner(QThread):
     def __init__(self, query):
         super().__init__()
         self.query = query
+        self.results = None
+        self.error = None
 
     def run(self):
         try:
@@ -53,7 +55,9 @@ class QueryRunner(QThread):
 
     def abort(self):
         if self.cursor:
-            self.cursor.cancel()
+            self.cursor.close()
+        self.error = "Query aborted by user"
+        self.finished.emit()
 
 class MainWindow(QMainWindow):
     def __init__(self):
