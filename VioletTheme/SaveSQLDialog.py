@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_SaveSQL(object):
     def setupUi(self, SaveSQL):
         SaveSQL.setObjectName("SaveSQL")
-        SaveSQL.resize(550, 150)
+        SaveSQL.resize(537, 223)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -32,6 +32,27 @@ class Ui_SaveSQL(object):
         self.widget.setObjectName("widget")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.widget)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.label = QtWidgets.QLabel(self.widget)
+        self.label.setStyleSheet("QLabel{\n"
+"    color: rgb(238, 236, 255);/* Set your desired text color */\n"
+"    font-family: Arial;\n"
+"    font-size: 15px; /* Set your desired font size */\n"
+"    }")
+        self.label.setObjectName("label")
+        self.verticalLayout_2.addWidget(self.label)
+        self.lineEdit = QtWidgets.QLineEdit(self.widget)
+        self.lineEdit.setStyleSheet("QLineEdit{\n"
+"    background-color: rgb(64, 58, 95);/* Set your desired background color */\n"
+"    color: rgb(238, 236, 255);/* Set your desired text color */\n"
+"    font-family: Arial;\n"
+"    font-size: 18px; /* Set your desired font size */\n"
+"    border-style: none;\n"
+"    /*border: 1px solid #CCCCCC;  Set your desired border style */\n"
+"    border-radius: 5px; /* Set your desired border radius */\n"
+"    padding: 5px; /* Set your desired padding */\n"
+"    }")
+        self.lineEdit.setObjectName("lineEdit")
+        self.verticalLayout_2.addWidget(self.lineEdit)
         self.pushButton = QtWidgets.QPushButton(self.widget)
         self.pushButton.setStyleSheet("QPushButton{\n"
 "    /*background-image: url(:/whiteIcons/featherwhite/calendar.svg);\n"
@@ -104,6 +125,7 @@ class Ui_SaveSQL(object):
     def retranslateUi(self, SaveSQL):
         _translate = QtCore.QCoreApplication.translate
         SaveSQL.setWindowTitle(_translate("SaveSQL", "Save SQL"))
+        self.label.setText(_translate("SaveSQL", "SQL Name:"))
         self.pushButton.setText(_translate("SaveSQL", "Private Repository"))
         self.pushButton_2.setText(_translate("SaveSQL", "Public Repository"))
 import resource_rc
