@@ -2170,7 +2170,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_52.addWidget(self.AreaSpecificWidget)
         self.toolBox_2.addItem(self.AreaSpecificFiltersPage, "")
         self.CustomFiltersPage = QtWidgets.QWidget()
-        self.CustomFiltersPage.setGeometry(QtCore.QRect(0, 0, 262, 351))
+        self.CustomFiltersPage.setGeometry(QtCore.QRect(0, 0, 262, 367))
         self.CustomFiltersPage.setObjectName("CustomFiltersPage")
         self.verticalLayout_36 = QtWidgets.QVBoxLayout(self.CustomFiltersPage)
         self.verticalLayout_36.setContentsMargins(2, 2, 2, 2)
@@ -2180,12 +2180,12 @@ class Ui_MainWindow(object):
         self.verticalLayout_43 = QtWidgets.QVBoxLayout(self.widget_37)
         self.verticalLayout_43.setContentsMargins(2, 2, 2, 2)
         self.verticalLayout_43.setObjectName("verticalLayout_43")
-        self.widget_3 = QtWidgets.QWidget(self.widget_37)
-        self.widget_3.setObjectName("widget_3")
-        self.formLayout_3 = QtWidgets.QFormLayout(self.widget_3)
+        self.CustomFilterFormWidget = QtWidgets.QWidget(self.widget_37)
+        self.CustomFilterFormWidget.setObjectName("CustomFilterFormWidget")
+        self.formLayout_3 = QtWidgets.QFormLayout(self.CustomFilterFormWidget)
         self.formLayout_3.setContentsMargins(2, 2, 2, 2)
         self.formLayout_3.setObjectName("formLayout_3")
-        self.label = QtWidgets.QLabel(self.widget_3)
+        self.label = QtWidgets.QLabel(self.CustomFilterFormWidget)
         self.label.setStyleSheet("QLabel{\n"
 "    color: rgb(238, 236, 255);/* Set your desired text color */\n"
 "    font-family: Arial;\n"
@@ -2193,12 +2193,12 @@ class Ui_MainWindow(object):
 "    }")
         self.label.setObjectName("label")
         self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label)
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.widget_3)
+        self.ColumnLineEdit = QtWidgets.QLineEdit(self.CustomFilterFormWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(-1)
-        self.lineEdit_2.setFont(font)
-        self.lineEdit_2.setStyleSheet("QLineEdit{\n"
+        self.ColumnLineEdit.setFont(font)
+        self.ColumnLineEdit.setStyleSheet("QLineEdit{\n"
 "    background-color: rgb(59, 56, 84);/* Set your desired background color */\n"
 "    color: rgb(238, 236, 255);/* Set your desired text color */\n"
 "    font-family: Arial;\n"
@@ -2208,10 +2208,10 @@ class Ui_MainWindow(object):
 "    border-radius: 5px; /* Set your desired border radius */\n"
 "    padding: 5px; /* Set your desired padding */\n"
 "    }")
-        self.lineEdit_2.setText("")
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.lineEdit_2)
-        self.label_2 = QtWidgets.QLabel(self.widget_3)
+        self.ColumnLineEdit.setText("")
+        self.ColumnLineEdit.setObjectName("ColumnLineEdit")
+        self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.ColumnLineEdit)
+        self.label_2 = QtWidgets.QLabel(self.CustomFilterFormWidget)
         self.label_2.setStyleSheet("QLabel{\n"
 "    color: rgb(238, 236, 255);/* Set your desired text color */\n"
 "    font-family: Arial;\n"
@@ -2219,12 +2219,12 @@ class Ui_MainWindow(object):
 "    }")
         self.label_2.setObjectName("label_2")
         self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_2)
-        self.DBComboBox_3 = QtWidgets.QComboBox(self.widget_3)
+        self.FilterzLoginComboBox = QtWidgets.QComboBox(self.CustomFilterFormWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(-1)
-        self.DBComboBox_3.setFont(font)
-        self.DBComboBox_3.setStyleSheet("QComboBox {\n"
+        self.FilterzLoginComboBox.setFont(font)
+        self.FilterzLoginComboBox.setStyleSheet("QComboBox {\n"
 "    background-color: rgb(64, 58, 95); /* Set your desired background color */\n"
 "    color: rgb(238, 236, 255);/* Set your desired text color */\n"
 "    font-family: Arial;\n"
@@ -2254,9 +2254,9 @@ class Ui_MainWindow(object):
 "    width: 20px; /* Set the width of the dropdown arrow image */\n"
 "    height: 15px; /* Set the height of the dropdown arrow image */\n"
 "}")
-        self.DBComboBox_3.setObjectName("DBComboBox_3")
-        self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.DBComboBox_3)
-        self.label_3 = QtWidgets.QLabel(self.widget_3)
+        self.FilterzLoginComboBox.setObjectName("FilterzLoginComboBox")
+        self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.FilterzLoginComboBox)
+        self.label_3 = QtWidgets.QLabel(self.CustomFilterFormWidget)
         self.label_3.setStyleSheet("QLabel{\n"
 "    color: rgb(238, 236, 255);/* Set your desired text color */\n"
 "    font-family: Arial;\n"
@@ -2264,12 +2264,12 @@ class Ui_MainWindow(object):
 "    }")
         self.label_3.setObjectName("label_3")
         self.formLayout_3.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_3)
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.widget_3)
+        self.FilterValuesLineEdit = QtWidgets.QLineEdit(self.CustomFilterFormWidget)
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(-1)
-        self.lineEdit_3.setFont(font)
-        self.lineEdit_3.setStyleSheet("QLineEdit{\n"
+        self.FilterValuesLineEdit.setFont(font)
+        self.FilterValuesLineEdit.setStyleSheet("QLineEdit{\n"
 "    background-color: rgb(59, 56, 84);/* Set your desired background color */\n"
 "    color: rgb(238, 236, 255);/* Set your desired text color */\n"
 "    font-family: Arial;\n"
@@ -2280,11 +2280,11 @@ class Ui_MainWindow(object):
 "    padding: 5px; /* Set your desired padding */\n"
 "    height:100px;\n"
 "    }")
-        self.lineEdit_3.setText("")
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.formLayout_3.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.lineEdit_3)
-        self.RunSQLButton_2 = QtWidgets.QPushButton(self.widget_3)
-        self.RunSQLButton_2.setStyleSheet("QPushButton{\n"
+        self.FilterValuesLineEdit.setText("")
+        self.FilterValuesLineEdit.setObjectName("FilterValuesLineEdit")
+        self.formLayout_3.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.FilterValuesLineEdit)
+        self.AddFilterButton = QtWidgets.QPushButton(self.CustomFilterFormWidget)
+        self.AddFilterButton.setStyleSheet("QPushButton{\n"
 "    /*background-image: url(:/whiteIcons/featherwhite/play.svg);\n"
 "    background-repeat: no-repeat;\n"
 "    background-position: center;*/\n"
@@ -2312,18 +2312,18 @@ class Ui_MainWindow(object):
 "}")
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap(":/WhiteIcons/featherwhite/plus.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.RunSQLButton_2.setIcon(icon6)
-        self.RunSQLButton_2.setIconSize(QtCore.QSize(25, 25))
-        self.RunSQLButton_2.setObjectName("RunSQLButton_2")
-        self.formLayout_3.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.RunSQLButton_2)
-        self.verticalLayout_43.addWidget(self.widget_3)
-        self.listWidget = QtWidgets.QListWidget(self.widget_37)
-        self.listWidget.setStyleSheet("QListWidget{\n"
+        self.AddFilterButton.setIcon(icon6)
+        self.AddFilterButton.setIconSize(QtCore.QSize(25, 25))
+        self.AddFilterButton.setObjectName("AddFilterButton")
+        self.formLayout_3.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.AddFilterButton)
+        self.verticalLayout_43.addWidget(self.CustomFilterFormWidget)
+        self.CustomFilterListWidget = QtWidgets.QListWidget(self.widget_37)
+        self.CustomFilterListWidget.setStyleSheet("QListWidget{\n"
 "    background-color: rgb(53, 50, 76);\n"
 "    border-radius: 15px;\n"
 "    }")
-        self.listWidget.setObjectName("listWidget")
-        self.verticalLayout_43.addWidget(self.listWidget)
+        self.CustomFilterListWidget.setObjectName("CustomFilterListWidget")
+        self.verticalLayout_43.addWidget(self.CustomFilterListWidget)
         self.verticalLayout_36.addWidget(self.widget_37)
         self.toolBox_2.addItem(self.CustomFiltersPage, "")
         self.verticalLayout_49.addWidget(self.toolBox_2)
@@ -2870,8 +2870,8 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Column"))
         self.label_2.setText(_translate("MainWindow", "Logic"))
         self.label_3.setText(_translate("MainWindow", "Values"))
-        self.RunSQLButton_2.setToolTip(_translate("MainWindow", "<html><head/><body><p>Run SQL</p></body></html>"))
-        self.RunSQLButton_2.setText(_translate("MainWindow", "Add"))
+        self.AddFilterButton.setToolTip(_translate("MainWindow", "<html><head/><body><p>Run SQL</p></body></html>"))
+        self.AddFilterButton.setText(_translate("MainWindow", "Add"))
         self.toolBox_2.setItemText(self.toolBox_2.indexOf(self.CustomFiltersPage), _translate("MainWindow", "Custom Filters"))
         self.ToolSQLTextEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
