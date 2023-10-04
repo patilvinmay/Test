@@ -47,3 +47,4 @@ finally:
     # Close the database connection
     if conn:
         conn.close()
+engine = create_engine(f'postgresql://{db_params["user"]}:{db_params["password"]}@{db_params["host"]}:{db_params["port"]}/{db_params["database"]}')
