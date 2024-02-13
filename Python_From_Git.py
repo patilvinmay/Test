@@ -7,12 +7,12 @@ req = requests.get(url)
 pycode = req.text
 pwd = os.getcwd()
 pwd = pwd + '\\'
-print_abcdefg(pwd)
+print(pwd)
 
 f = open(pwd + "temp.py", "w")
 f.write(pycode)
 f.close()
 
-from temp import print_abcdefg_hi
+from temp import print_hi
 
-print_abcdefg_hi('Vinmay')
+print_hi('Vinmay')
