@@ -20,4 +20,4 @@ f.close()
 
 from temp import *
 
-print_hi("Vinmay")
+print_abcdefg_hi("Vinmay")
