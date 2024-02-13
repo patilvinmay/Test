@@ -1,6 +1,6 @@
-def print_hello(name):
-    print(f'Hi, {name}')
+def print_abcdefg_hello(name):
+    print_abcdefg(f'Hi, {name}')
 
 
 if __name__ == '__main__':
-    print_hello('PyCharm')
+    print_abcdefg_hello('PyCharm')
