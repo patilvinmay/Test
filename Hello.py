@@ -1,6 +1,6 @@
-def print_hello(name):
+def print_hi(name):
     print(f'Hi, {name}')
 
 
 if __name__ == '__main__':
-    print_hello('PyCharm')
+    print_hi('PyCharm')
