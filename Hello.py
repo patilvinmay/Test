@@ -1,1 +1,6 @@
-ZGVmIHByaW50X2hlbGxvKG5hbWUpOg0KICAgIHByaW50KGYnSGksIHtuYW1lfScpDQoNCg0KaWYgX19uYW1lX18gPT0gJ19fbWFpbl9fJzoNCiAgICBwcmludF9oZWxsbygnUHlDaGFybScpDQo=
+def print_hi(name):
+    print(f'Hi, {name}')
+
+
+if __name__ == '__main__':
+    print_hi('PyCharm')
