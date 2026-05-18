@@ -1,99 +1,110 @@
 import pandas as pd
-from sqlglot import parse_one, exp
+import re
 
 # ==========================================
-# INPUT CSV
+# INPUT / OUTPUT FILES
 # ==========================================
-# Example CSV format:
-#
-# query_name,query
-# q1,"SELECT customer_id, SECTN_CD FROM table1"
-# q2,"SELECT * FROM table2"
-#
 input_csv = r"C:\Input\queries.csv"
-
-# ==========================================
-# OUTPUT CSV
-# ==========================================
 output_csv = r"C:\Output\state_column_analysis.csv"
 
 # ==========================================
 # POSSIBLE STATE COLUMN NAMES
 # ==========================================
-state_columns = {
+state_columns = [
     "SECTN_CD",
     "LOC_ST",
     "STATE",
     "STATE_CD",
     "ST_CD",
     "REGION_STATE"
-}
+]
 
-# Convert to uppercase for matching
-state_columns = {col.upper() for col in state_columns}
+# Convert to uppercase
+state_columns = [col.upper() for col in state_columns]
 
 # ==========================================
-# READ INPUT
+# READ INPUT CSV
 # ==========================================
 df = pd.read_csv(input_csv)
 
-# ==========================================
-# OUTPUT RESULTS
-# ==========================================
 results = []
 
 # ==========================================
-# PROCESS EACH QUERY
+# FUNCTION TO EXTRACT OUTERMOST SELECT
+# ==========================================
+def extract_outer_select(sql):
+
+    sql = str(sql)
+
+    # Remove line breaks
+    sql_clean = re.sub(r"\s+", " ", sql)
+
+    # Track bracket depth
+    depth = 0
+    select_pos = -1
+    from_pos = -1
+
+    tokens = re.finditer(r"\(|\)|SELECT|FROM", sql_clean, re.IGNORECASE)
+
+    for match in tokens:
+
+        token = match.group().upper()
+
+        if token == "(":
+            depth += 1
+
+        elif token == ")":
+            depth -= 1
+
+        elif token == "SELECT" and depth == 0 and select_pos == -1:
+            select_pos = match.end()
+
+        elif token == "FROM" and depth == 0 and select_pos != -1:
+            from_pos = match.start()
+            break
+
+    if select_pos != -1 and from_pos != -1:
+        return sql_clean[select_pos:from_pos]
+
+    return ""
+
+# ==========================================
+# PROCESS QUERIES
 # ==========================================
 for index, row in df.iterrows():
 
-    query_name = str(row["query_name"])
-    sql_query = str(row["query"])
-
-    found_state_column = "NO"
-    matched_columns = []
+    query_name = row["query_name"]
+    sql_query = row["query"]
 
     try:
-        # Parse SQL
-        tree = parse_one(sql_query, dialect="snowflake")
 
-        # ONLY OUTERMOST SELECT
-        outer_select_columns = []
+        outer_select = extract_outer_select(sql_query).upper()
 
-        for projection in tree.expressions:
+        matched_columns = []
 
-            # Direct column
-            if isinstance(projection, exp.Column):
-                col_name = projection.name.upper()
-                outer_select_columns.append(col_name)
+        for col in state_columns:
 
-            # Alias handling
-            elif isinstance(projection, exp.Alias):
+            # Exact word match
+            pattern = rf"\b{re.escape(col)}\b"
 
-                # Example:
-                # SELECT LOC_ST AS STATE_CODE
-
-                inner_expression = projection.this
-
-                if isinstance(inner_expression, exp.Column):
-                    col_name = inner_expression.name.upper()
-                    outer_select_columns.append(col_name)
-
-        # Check against probable state columns
-        for col in outer_select_columns:
-            if col in state_columns:
-                found_state_column = "YES"
+            if re.search(pattern, outer_select, re.IGNORECASE):
                 matched_columns.append(col)
 
-    except Exception as e:
-        found_state_column = f"ERROR: {str(e)}"
+        results.append({
+            "query_name": query_name,
+            "state_column_found": "YES" if matched_columns else "NO",
+            "matched_columns": ", ".join(matched_columns),
+            "outer_select_clause": outer_select
+        })
 
-    # Store result
-    results.append({
-        "query_name": query_name,
-        "state_column_found": found_state_column,
-        "matched_state_columns": ", ".join(matched_columns)
-    })
+    except Exception as e:
+
+        results.append({
+            "query_name": query_name,
+            "state_column_found": "ERROR",
+            "matched_columns": str(e),
+            "outer_select_clause": ""
+        })
 
 # ==========================================
 # SAVE OUTPUT
@@ -102,5 +113,5 @@ output_df = pd.DataFrame(results)
 
 output_df.to_csv(output_csv, index=False)
 
-print(f"\nAnalysis Complete.")
-print(f"Output saved to:\n{output_csv}")
+print(f"\nDone.")
+print(f"Output File: {output_csv}")
