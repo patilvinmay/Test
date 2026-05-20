@@ -1,43 +1,10 @@
-import re
+conditions = []
 
-def extract_outer_select(sql):
+if where_clause:
 
-    # ==========================================
-    # REMOVE COMMENTS
-    # ==========================================
-    sql = re.sub(r'--.*?(\n|$)', ' ', sql)
-    sql = re.sub(r'/\*.*?\*/', ' ', sql, flags=re.DOTALL)
+    for condition in where_clause.find_all(
+        (exp.EQ, exp.GT, exp.GTE, exp.LT, exp.LTE, exp.In)
+    ):
+        conditions.append(condition.sql())
 
-    sql = sql.strip()
-
-    # ==========================================
-    # FIND FIRST SELECT
-    # ==========================================
-    select_pos = sql.upper().find("SELECT")
-
-    if select_pos == -1:
-        return None
-
-    # ==========================================
-    # KEEP ONLY FROM SELECT ONWARD
-    # ==========================================
-    sql = sql[select_pos:]
-
-    # ==========================================
-    # REMOVE EXTRA WRAPPING BRACKETS
-    # ==========================================
-    sql = sql.strip()
-
-    while sql.endswith(")"):
-        sql = sql[:-1].strip()
-
-    while sql.startswith("("):
-        sql = sql[1:].strip()
-
-    # ==========================================
-    # REMOVE LAST ;
-    # ==========================================
-    if sql.endswith(";"):
-        sql = sql[:-1]
-
-    return sql.strip()
+print(conditions)
