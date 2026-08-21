@@ -3,121 +3,20 @@ from copy import copy
 from openpyxl.utils import get_column_letter
 
 
-def is_orange(cell):
-    """
-    Check whether a cell has an orange background.
-    """
+def copy_cell(source, target):
+    target.value = source.value
 
-    fill = cell.fill
-
-    if fill.fill_type != "solid":
-        return False
-
-    color = fill.fgColor
-
-    if color.type == "rgb" and color.rgb:
-        rgb = color.rgb[-6:]
-
-        try:
-            r = int(rgb[0:2], 16)
-            g = int(rgb[2:4], 16)
-            b = int(rgb[4:6], 16)
-
-            # Detect orange shades
-            return (
-                r >= 180
-                and 70 <= g <= 220
-                and b <= 150
-                and r > g + 30
-                and g > b
-            )
-
-        except ValueError:
-            return False
-
-    return False
-
-
-def find_orange_row(ws):
-    """
-    Find the first row containing an orange cell.
-
-    Returns:
-        Row number if found
-        None if not found
-    """
-
-    for row in ws.iter_rows():
-        for cell in row:
-
-            if is_orange(cell):
-                return cell.row
-
-    return None
-
-
-def copy_cell(source_cell, target_cell):
-    """
-    Copy cell value and formatting.
-    """
-
-    target_cell.value = source_cell.value
-
-    if source_cell.has_style:
-        target_cell.font = copy(source_cell.font)
-        target_cell.fill = copy(source_cell.fill)
-        target_cell.border = copy(source_cell.border)
-        target_cell.alignment = copy(source_cell.alignment)
-        target_cell.number_format = source_cell.number_format
-        target_cell.protection = copy(source_cell.protection)
-
-
-def copy_row(source_ws, target_ws, source_row, target_row):
-    """
-    Copy one row from source worksheet.
-
-    Original column A -> Output column B
-    Original column B -> Output column C
-    etc.
-
-    Output column A is reserved for the sheet name/date.
-    """
-
-    for source_col in range(1, source_ws.max_column + 1):
-
-        source_cell = source_ws.cell(
-            row=source_row,
-            column=source_col
-        )
-
-        # Shift one column to the right
-        target_cell = target_ws.cell(
-            row=target_row,
-            column=source_col + 1
-        )
-
-        copy_cell(source_cell, target_cell)
-
-    # Preserve row height
-    if source_row in source_ws.row_dimensions:
-
-        target_ws.row_dimensions[target_row].height = (
-            source_ws.row_dimensions[source_row].height
-        )
+    if source.has_style:
+        target.font = copy(source.font)
+        target.fill = copy(source.fill)
+        target.border = copy(source.border)
+        target.alignment = copy(source.alignment)
+        target.number_format = source.number_format
+        target.protection = copy(source.protection)
 
 
 def process_excel(input_file, output_file):
-
-    # ---------------------------------------------
-    # OPEN SOURCE WORKBOOK
-    # ---------------------------------------------
-
     source_wb = load_workbook(input_file)
-
-    # ---------------------------------------------
-    # CREATE OUTPUT WORKBOOK
-    # ---------------------------------------------
-
     output_wb = Workbook()
 
     output_ws = output_wb.active
@@ -125,120 +24,42 @@ def process_excel(input_file, output_file):
 
     output_row = 1
 
-    # ---------------------------------------------
-    # PROCESS EVERY SHEET
-    # ---------------------------------------------
+    for ws in source_wb.worksheets:
+        print(f"Processing {ws.title}")
 
-    for source_ws in source_wb.worksheets:
+        # Copy rows 5 to 100
+        for r in range(5, 101):
 
-        print(f"\nProcessing sheet: {source_ws.title}")
+            # Column A = Sheet name (Date)
+            output_ws.cell(row=output_row, column=1).value = ws.title
 
-        # -----------------------------------------
-        # FIND ORANGE ROW
-        # -----------------------------------------
+            # Copy original columns starting from Column B
+            for c in range(1, ws.max_column + 1):
+                source_cell = ws.cell(row=r, column=c)
+                target_cell = output_ws.cell(row=output_row, column=c + 1)
+                copy_cell(source_cell, target_cell)
 
-        orange_row = find_orange_row(source_ws)
-
-        if orange_row is None:
-
-            print("  No orange cell found. Sheet skipped.")
-
-            continue
-
-        print(f"  Orange row found: {orange_row}")
-
-        # -----------------------------------------
-        # COPY FROM ROW 4
-        # UNTIL ROW BEFORE ORANGE ROW
-        # -----------------------------------------
-
-        for source_row in range(4, orange_row):
-
-            # -------------------------------------
-            # COLUMN A = SHEET NAME / DATE
-            # -------------------------------------
-
-            date_cell = output_ws.cell(
-                row=output_row,
-                column=1
-            )
-
-            date_cell.value = source_ws.title
-
-            # -------------------------------------
-            # ORIGINAL DATA STARTS FROM COLUMN B
-            # -------------------------------------
-
-            copy_row(
-                source_ws,
-                output_ws,
-                source_row,
-                output_row
-            )
+            # Preserve row height
+            if r in ws.row_dimensions:
+                output_ws.row_dimensions[output_row].height = ws.row_dimensions[r].height
 
             output_row += 1
 
-        print(
-            f"  Copied rows 4 to {orange_row - 1}"
-        )
-
-    # ---------------------------------------------
-    # COPY COLUMN WIDTHS
-    # ---------------------------------------------
-
-    if source_wb.worksheets:
-
-        first_ws = source_wb.worksheets[0]
-
-        for col_index in range(
-            1,
-            first_ws.max_column + 1
-        ):
-
-            source_letter = get_column_letter(col_index)
-
-            target_letter = get_column_letter(
-                col_index + 1
-            )
-
-            width = first_ws.column_dimensions[
-                source_letter
-            ].width
-
-            if width:
-                output_ws.column_dimensions[
-                    target_letter
-                ].width = width
-
-    # Width for Date column
+    # Copy column widths from first sheet
+    first_ws = source_wb.worksheets[0]
     output_ws.column_dimensions["A"].width = 15
 
-    # ---------------------------------------------
-    # SAVE OUTPUT
-    # ---------------------------------------------
+    for c in range(1, first_ws.max_column + 1):
+        src_letter = get_column_letter(c)
+        dst_letter = get_column_letter(c + 1)
+        output_ws.column_dimensions[dst_letter].width = first_ws.column_dimensions[src_letter].width
 
     output_wb.save(output_file)
-
-    print("\n--------------------------------")
-    print("Processing completed successfully!")
-    print(f"Output file: {output_file}")
-    print("--------------------------------")
+    print("Done! Output saved to:", output_file)
 
 
-# =================================================
-# CHANGE THESE TWO PATHS
-# =================================================
-
+# --------- File Paths ---------
 input_file = r"C:\Users\YourName\Documents\DailyTasks.xlsx"
-
 output_file = r"C:\Users\YourName\Documents\CombinedTasks.xlsx"
 
-
-# =================================================
-# RUN
-# =================================================
-
-process_excel(
-    input_file,
-    output_file
-)
+process_excel(input_file, output_file)
